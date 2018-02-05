@@ -1,0 +1,5 @@
+.gitignore
+.idea/
+target/
+project/build.properties
+project/project/
