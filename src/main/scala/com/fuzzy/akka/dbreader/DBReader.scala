@@ -1,6 +1,7 @@
 package com.fuzzy.akka.dbreader
 
-import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
+import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props}
+import com.fuzzy.akka.dbreader.DynamoDBReaderWriter.{ListTables, ReadDocuments, WriteDocument}
 
 object Printer {
 
@@ -18,4 +19,10 @@ class Printer extends Actor with ActorLogging {
 }
 object DBReader extends App {
   val system: ActorSystem = ActorSystem("dbreader")
+
+  val readerWriter: ActorRef = system.actorOf(DynamoDBReaderWriter.props, "dynamoDBReaderWriterActor")
+
+  readerWriter ! ListTables
+  readerWriter ! ReadDocuments("robotCritic_movieReviews")
+
 }
