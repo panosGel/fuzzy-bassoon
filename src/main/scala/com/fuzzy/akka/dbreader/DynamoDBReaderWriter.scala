@@ -19,6 +19,7 @@ object DynamoDBReaderWriter {
   final case class WriteDocument(jsonString: String)
   final case class ReadDocuments(tableName: String)
   final case class ListTables()
+  final case class WriteItem(tableName: String, itemJson: String)
 }
 
 class DynamoDBReaderWriter extends Actor with ActorLogging {
@@ -45,6 +46,8 @@ class DynamoDBReaderWriter extends Actor with ActorLogging {
       readTable(tableName)
     case ListTables => dynamoDBListTables
       log.info(s"listing all tables in dynamoDB...")
+    case WriteItem(tableName, item) =>
+      saveItem(tableName, item)
   }
 
 
@@ -63,5 +66,9 @@ class DynamoDBReaderWriter extends Actor with ActorLogging {
     val scanPages: Source[ScanResult, NotUsed] =
     client.source(new ScanRequest().withTableName(tableName))
     scanPages.runForeach(i => println(i))(materializer)
+  }
+
+  private def saveItem(tableName: String, itemJson: String) = {
+    log.info(s"Saving item: ${itemJson}")
   }
 }

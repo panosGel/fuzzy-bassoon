@@ -9,6 +9,7 @@ object Printer {
   final case class Output(message: String)
 
 }
+
 class Printer extends Actor with ActorLogging {
   import Printer._
 
@@ -17,7 +18,7 @@ class Printer extends Actor with ActorLogging {
       log.info(s"Received output message from ${sender}: ${outputMessage}")
   }
 }
-object DBReader extends App {
+object FuzzyApp extends App {
   val system: ActorSystem = ActorSystem("dbreader")
 
   val readerWriter: ActorRef = system.actorOf(DynamoDBReaderWriter.props, "dynamoDBReaderWriterActor")
