@@ -8,17 +8,3 @@ services:
 - docker
 jdk:
 - oraclejdk8
-before_script:
-script:
-cache:
-  directories:
-before_cache:
-
-before_install:
-- npm install -g aws-sam-local
-- npm install -g serverless
-- npm install -g serverless-sam
-- sls plugin install --name serverless-sam --stage default
-
-env:
-  global:
